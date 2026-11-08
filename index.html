@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Double Delta Biosciences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:opsz,wght@8..60,300..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFAF7;
+  --paper-2:#F2EFE8;
+  --ink:#241D18;
+  --ink-2:#5A4F47;
+  --teal:#0D7A74;
+  --teal-soft:#CFE9E5;
+  --decoy:#857667;
+  --decoy-soft:#E3DACF;
+  --rule:rgba(36,29,24,.14);
+  --rule-strong:rgba(36,29,24,.30);
+  --stone:#241D18;
+  --on-stone:#F0E9E0;
+  color-scheme: light;
+
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1A1511;
+    --paper-2:#231C17;
+    --ink:#F0E8DE;
+    --ink-2:#B6A696;
+    --teal:#3FC7B4;
+    --teal-soft:#10433F;
+    --decoy:#A89A8A;
+    --decoy-soft:#3A332B;
+    --rule:rgba(240,232,222,.16);
+    --rule-strong:rgba(240,232,222,.34);
+    --stone:#120E0B;
+    --on-stone:#F0E9E0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1A1511; --paper-2:#231C17; --ink:#F0E8DE; --ink-2:#B6A696;
+  --teal:#3FC7B4; --teal-soft:#10433F; --decoy:#A89A8A; --decoy-soft:#3A332B;
+  --rule:rgba(240,232,222,.16); --rule-strong:rgba(240,232,222,.34);
+  --stone:#120E0B; --on-stone:#F0E9E0; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%; scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px); -webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:1.0625rem; line-height:1.62; font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
+  background:var(--paper); z-index:60}
+h1,h2,h3,.sans{font-family:Archivo,"Helvetica Neue",Arial,sans-serif; font-variation-settings:"wdth" 112}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:2px}
+
+.wrap{width:min(1180px,100% - 3rem); margin-inline:auto}
+@media (max-width:640px){ .wrap{width:min(1180px,100% - 2rem)} }
+
+/* ───── nav ───── */
+.nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:62px; gap:1rem}
+.mark{display:flex; align-items:baseline; gap:.6rem; text-decoration:none}
+.glyph{font-family:Archivo,sans-serif; font-weight:900; font-size:1.3rem; letter-spacing:-.03em; line-height:1}
+.glyph .a{color:var(--teal)} .glyph .b{color:var(--decoy)}
+.mark .wordmark{font-family:Archivo,sans-serif; font-weight:600; font-size:.92rem;
+  font-variation-settings:"wdth" 102; letter-spacing:.01em}
+.nav nav{display:flex; gap:1.6rem; font-family:Archivo,sans-serif; font-size:.85rem; font-weight:500}
+.nav nav a{text-decoration:none; color:var(--ink-2)}
+.nav nav a:hover{color:var(--ink)}
+@media (max-width:720px){ .nav nav a:not(.keep){display:none} }
+
+/* ───── hero ───── */
+.hero{padding:clamp(3rem,7vw,6.5rem) 0 clamp(2.5rem,5vw,4rem); border-bottom:1px solid var(--rule)}
+.hero .wrap{display:grid; grid-template-columns:1.08fr .92fr; gap:clamp(2rem,5vw,4.5rem); align-items:center}
+@media (max-width:900px){ .hero .wrap{grid-template-columns:1fr} }
+h1{
+  font-size:clamp(2.3rem,5.6vw,4.3rem); font-weight:800; line-height:1.0;
+  letter-spacing:-.035em; margin:0 0 1.5rem; font-variation-settings:"wdth" 108; text-wrap:balance;
+}
+.lede{font-size:clamp(1.08rem,1.6vw,1.26rem); line-height:1.58; max-width:34em; margin:0 0 1.8rem; color:var(--ink)}
+.standfirst{font-family:Archivo,sans-serif; font-size:.84rem; font-weight:500; color:var(--ink-2);
+  letter-spacing:.02em; margin:0; display:flex; gap:1.4rem; flex-wrap:wrap}
+.standfirst span{display:inline-flex; align-items:center; gap:.5rem}
+.dot{width:7px; height:7px; border-radius:50%; background:var(--teal); flex:none}
+.dot.s{background:var(--decoy)}
+
+.ribbonbox{position:relative; aspect-ratio:1/1; max-height:460px; width:100%}
+.ribbonbox canvas{width:100%; height:100%; display:block}
+.ribbon-cap{position:absolute; left:0; bottom:-.2rem; font-family:Archivo,sans-serif;
+  font-size:.76rem; color:var(--ink-2); max-width:24em; line-height:1.45}
+
+/* ───── generic section ───── */
+section{padding:clamp(3.2rem,7vw,6rem) 0}
+.band{background:var(--paper-2); border-block:1px solid var(--rule)}
+.stone{background:var(--stone); color:var(--on-stone)}
+.stone h2,.stone h3{color:var(--on-stone)}
+.stone .sub{color:#BCAFA2}
+h2{font-size:clamp(1.7rem,3.4vw,2.6rem); font-weight:800; line-height:1.08;
+  letter-spacing:-.028em; margin:0 0 1rem; max-width:19em; text-wrap:balance}
+.sub{font-size:1.06rem; max-width:38em; color:var(--ink-2); margin:0 0 2.2rem}
+.sub.wide{max-width:46em}
+p{margin:0 0 1.05rem}
+
+/* ───── scatter ───── */
+.plotgrid{display:grid; grid-template-columns:1fr 340px; gap:clamp(1.5rem,3.5vw,3rem); align-items:start}
+@media (max-width:860px){ .plotgrid{grid-template-columns:1fr} }
+.plotframe{border:1px solid var(--rule-strong); background:var(--paper); padding:.9rem .9rem .5rem; position:relative}
+.plotframe svg{display:block; width:100%; height:auto}
+.toggle{display:inline-flex; border:1px solid var(--rule-strong); margin-bottom:1.3rem}
+.toggle button{appearance:none; background:transparent; border:0; cursor:pointer;
+  font-family:Archivo,sans-serif; font-size:.82rem; font-weight:600; color:var(--ink-2);
+  padding:.62rem 1.05rem; line-height:1.2}
+.toggle button+button{border-left:1px solid var(--rule-strong)}
+.toggle button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.readout{border-top:1px solid var(--rule); padding-top:1.1rem; margin-top:1.3rem}
+.bignum{font-family:Archivo,sans-serif; font-weight:800; font-size:3.1rem; line-height:.95;
+  letter-spacing:-.04em; font-variation-settings:"wdth" 105}
+.readout p{font-size:.97rem; color:var(--ink-2); margin:.7rem 0 0}
+.legend{display:flex; flex-direction:column; gap:.55rem; font-family:Archivo,sans-serif;
+  font-size:.82rem; color:var(--ink-2); margin:0 0 1.4rem}
+.legend span{display:flex; align-items:center; gap:.6rem}
+.swatch{width:11px; height:11px; flex:none; border-radius:50%}
+
+/* ───── method ───── */
+.two{display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.5rem,4vw,3.4rem)}
+@media (max-width:800px){ .two{grid-template-columns:1fr} }
+.dock{border:1px solid var(--rule-strong); padding:1.2rem}
+.dock svg{display:block; width:100%; height:auto}
+.dock h3{font-size:1.02rem; font-weight:700; margin:.9rem 0 .35rem; letter-spacing:-.01em}
+.dock p{font-size:.95rem; color:var(--ink-2); margin:0}
+.verdict{font-family:Archivo,sans-serif; font-size:.74rem; font-weight:700; letter-spacing:.04em}
+.verdict.y{color:var(--teal)} .verdict.n{color:var(--decoy)}
+
+.energy{margin-top:clamp(2.4rem,5vw,3.6rem); border-top:1px solid var(--rule); padding-top:2.4rem}
+.energy-flex{display:grid; grid-template-columns:1.25fr .75fr; gap:clamp(1.5rem,4vw,3rem); align-items:center}
+@media (max-width:800px){ .energy-flex{grid-template-columns:1fr} }
+.energy svg{display:block; width:100%; height:auto}
+
+/* ───── market ───── */
+.claims{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--rule-strong)}
+@media (max-width:820px){ .claims{grid-template-columns:1fr} }
+.claim{padding:1.8rem 1.6rem 1.8rem 0; border-bottom:1px solid var(--rule)}
+.claim+.claim{padding-left:1.6rem; border-left:1px solid var(--rule)}
+@media (max-width:820px){ .claim+.claim{padding-left:0; border-left:0} }
+.claim h3{font-size:1.05rem; font-weight:700; margin:0 0 .5rem; letter-spacing:-.012em}
+.claim p{font-size:.95rem; color:var(--ink-2); margin:0}
+.stone .claim p{color:#BCAFA2}
+.stone .claims{border-color:rgba(240,232,222,.3)}
+.stone .claim{border-color:rgba(240,232,222,.16)}
+.stone .claim+.claim{border-left-color:rgba(240,232,222,.16)}
+.pullquote{font-size:clamp(1.25rem,2.6vw,1.85rem); line-height:1.32; max-width:21em;
+  margin:0 0 1.6rem; letter-spacing:-.012em}
+.pullquote em{font-style:italic; color:var(--teal)}
+
+/* ───── roadmap (a real sequence) ───── */
+.road{list-style:none; margin:0; padding:0; counter-reset:trl}
+.road li{display:grid; grid-template-columns:72px 1fr; gap:1.4rem; padding:1.35rem 0;
+  border-top:1px solid var(--rule); align-items:start}
+.road li:last-child{border-bottom:1px solid var(--rule)}
+.trl{font-family:Archivo,sans-serif; font-weight:800; font-size:.95rem; letter-spacing:-.01em;
+  color:var(--ink-2); padding-top:.12rem}
+.road li[data-now="1"] .trl{color:var(--teal)}
+.road h3{font-size:1.05rem; font-weight:700; margin:0 0 .3rem; letter-spacing:-.012em; display:flex;
+  align-items:baseline; gap:.75rem; flex-wrap:wrap}
+.now{font-family:Archivo,sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.06em;
+  color:var(--paper); background:var(--teal); padding:.18rem .48rem}
+.road p{font-size:.96rem; color:var(--ink-2); margin:0; max-width:52em}
+
+/* ───── footer ───── */
+footer{border-top:1px solid var(--rule); padding:clamp(2.6rem,6vw,4.5rem) 0 3.5rem}
+.footgrid{display:grid; grid-template-columns:1.3fr 1fr; gap:2.5rem; align-items:start}
+@media (max-width:760px){ .footgrid{grid-template-columns:1fr} }
+.contact a{font-family:Archivo,sans-serif; font-weight:600; font-size:1.05rem;
+  text-decoration:none; border-bottom:2px solid var(--teal); padding-bottom:2px}
+.fineprint{font-size:.84rem; color:var(--ink-2); max-width:34em; margin-top:1.6rem}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="#top">
+      <span class="glyph"><span class="a">Δ</span><span class="b">Δ</span></span>
+      <span class="wordmark">Double Delta Biosciences</span>
+    </a>
+    <nav>
+      <a href="#problem">The problem</a>
+      <a href="#method">Method</a>
+      <a href="#market">Market</a>
+      <a href="#status">Status</a>
+      <a href="#contact" class="keep">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>A binder that grabs everything tells you nothing.</h1>
+        <p class="lede">We design proteins that recognise one biologic medicine and reject the
+        molecules built to resemble it. Sold first as the reagent that regulated assays already
+        require. Deployed second as the field check that counterfeit biologics currently pass.</p>
+        <p class="standfirst">
+          <span><i class="dot"></i>Pre-seed</span>
+          <span><i class="dot s"></i>Spun out of IIT Madras</span>
+        </p>
+      </div>
+      <div class="ribbonbox">
+        <canvas id="ribbon" aria-label="Rotating three-helix bundle, a designed protein binder"></canvas>
+        <p class="ribbon-cap">A three-helix bundle — the topology most de novo designed binders fold
+        into. Backbone trace, rendered live.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM / SCATTER -->
+  <section id="problem">
+    <div class="wrap">
+      <h2>Every design tool ranks candidates by grip. The useful ranking is the gap.</h2>
+      <p class="sub wide">Generative protein design now produces thousands of candidates and scores
+      them on predicted binding to the target. For an identity assay that ranking is actively
+      wrong, because the features that make a binder stick tend to make it stick to near
+      neighbours too. Rank the same candidate set on discrimination margin — binding to the target
+      minus binding to the closest decoy — and you select a different set of molecules.</p>
+
+      <div class="plotgrid">
+        <div>
+          <div class="toggle" role="group" aria-label="Ranking criterion">
+            <button id="btn-aff" aria-pressed="true">Rank by affinity</button>
+            <button id="btn-mar" aria-pressed="false">Rank by margin</button>
+          </div>
+          <div class="plotframe">
+            <svg id="scatter" viewBox="0 0 640 470" role="img"
+                 aria-label="Scatter plot of designed binders by predicted binding to target and to decoy"></svg>
+          </div>
+        </div>
+
+        <div>
+          <p class="legend">
+            <span><i class="swatch" style="background:var(--teal)"></i>Selected by the current ranking</span>
+            <span><i class="swatch" style="background:var(--decoy);opacity:.45"></i>Not selected</span>
+            <span><i class="swatch" style="background:transparent;border:1.5px solid var(--ink)"></i>Selected by both rankings</span>
+          </p>
+          <div class="readout">
+            <div class="bignum" id="overlap">—</div>
+            <p id="overlap-text">of the top twelve designs appear in both selections.</p>
+          </div>
+          <div class="readout">
+            <p>Points above the diagonal bind the decoy at least as well as the target. A reagent
+            drawn from that region reports a counterfeit as genuine.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method" class="band">
+    <div class="wrap">
+      <h2>One number decides whether a reagent is usable.</h2>
+      <p class="sub">The same binder meets the real molecule and its look-alike. What matters is not
+      how hard it holds either one, but how far apart the two energies sit.</p>
+
+      <div class="two">
+        <div class="dock">
+          <svg viewBox="0 0 340 190" role="img" aria-label="Binder fitting the target pocket">
+            <defs><clipPath id="c1"><rect x="0" y="0" width="340" height="190"/></clipPath></defs>
+            <g clip-path="url(#c1)">
+              <path d="M18 160 C 18 92, 62 54, 124 54 L 148 54 C 156 54 160 60 160 68
+                       L 160 92 C 160 104 170 108 180 108 L 198 108 C 210 108 214 116 214 126
+                       L 214 160 Z"
+                    fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="2"/>
+              <g id="key1">
+                <path d="M160 70 L 186 70 C 196 70 200 78 200 88 L 200 104 C 200 114 208 118 218 118
+                         L 244 118 L 244 150 L 160 150 Z"
+                      fill="var(--teal)" opacity=".9"/>
+              </g>
+              <text x="26" y="180" font-family="Archivo" font-size="11" fill="var(--ink-2)">target</text>
+            </g>
+          </svg>
+          <h3>The real medicine <span class="verdict y">BOUND</span></h3>
+          <p>Shape and chemistry agree across the whole interface. The binder seats fully.</p>
+        </div>
+
+        <div class="dock">
+          <svg viewBox="0 0 340 190" role="img" aria-label="Binder rejected by the decoy pocket">
+            <defs><clipPath id="c2"><rect x="0" y="0" width="340" height="190"/></clipPath></defs>
+            <g clip-path="url(#c2)">
+              <path d="M18 160 C 18 92, 62 54, 124 54 L 148 54 C 156 54 160 60 160 68
+                       L 160 96 C 160 108 168 112 178 112 L 190 112 C 202 112 206 120 206 130
+                       L 206 160 Z"
+                    fill="var(--decoy-soft)" stroke="var(--decoy)" stroke-width="2"/>
+              <g id="key2">
+                <path d="M186 70 L 212 70 C 222 70 226 78 226 88 L 226 104 C 226 114 234 118 244 118
+                         L 270 118 L 270 150 L 186 150 Z"
+                      fill="var(--decoy)" opacity=".9"/>
+              </g>
+              <path d="M168 78 l 10 10 m 0 -10 l -10 10" stroke="var(--decoy)" stroke-width="2.4"
+                    stroke-linecap="round" fill="none"/>
+              <text x="26" y="180" font-family="Archivo" font-size="11" fill="var(--ink-2)">decoy</text>
+            </g>
+          </svg>
+          <h3>The look-alike <span class="verdict n">REJECTED</span></h3>
+          <p>One subsurface contact disagrees. The binder cannot seat, and the energy cost shows up
+          as margin.</p>
+        </div>
+      </div>
+
+      <div class="energy">
+        <div class="energy-flex">
+          <svg viewBox="0 0 640 260" role="img"
+               aria-label="Energy diagram showing the gap between target and decoy binding energies">
+            <line x1="56" y1="26" x2="56" y2="214" stroke="var(--rule-strong)" stroke-width="1.5"/>
+            <line x1="56" y1="214" x2="612" y2="214" stroke="var(--rule-strong)" stroke-width="1.5"/>
+            <text x="56" y="18" font-family="Archivo" font-size="12" fill="var(--ink-2)">binding energy</text>
+
+            <path d="M86 40 C 150 40, 160 88, 214 88 C 268 88, 280 40, 344 40"
+                  fill="none" stroke="var(--decoy)" stroke-width="2.6"/>
+            <text x="352" y="44" font-family="Archivo" font-size="13" fill="var(--decoy)" font-weight="600">decoy</text>
+
+            <path d="M86 40 C 150 40, 160 176, 214 176 C 268 176, 280 40, 344 40"
+                  fill="none" stroke="var(--teal)" stroke-width="2.6"/>
+            <text x="352" y="180" font-family="Archivo" font-size="13" fill="var(--teal)" font-weight="600">target</text>
+
+            <line x1="214" y1="88" x2="214" y2="176" stroke="var(--ink)" stroke-width="1.4"
+                  stroke-dasharray="4 4"/>
+            <line x1="200" y1="88" x2="228" y2="88" stroke="var(--ink)" stroke-width="1.4"/>
+            <line x1="200" y1="176" x2="228" y2="176" stroke="var(--ink)" stroke-width="1.4"/>
+            <text x="238" y="136" font-family="Archivo" font-size="22" font-weight="800"
+                  fill="var(--ink)">ΔΔG</text>
+            <text x="238" y="156" font-family="Archivo" font-size="12" fill="var(--ink-2)">the quantity we select on</text>
+          </svg>
+          <div>
+            <p class="pullquote">The field optimises <em>ΔG</em>. The reagent only works because of
+            <em>ΔΔG</em>.</p>
+            <p style="color:var(--ink-2); font-size:.97rem">That single substitution changes which
+            candidates survive screening, and it is the thing no existing design pipeline is built
+            to maximise.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET -->
+  <section id="market" class="stone">
+    <div class="wrap">
+      <h2>A reagent that programmes are required to buy.</h2>
+      <p class="sub wide">Identity reagents are not a speculative product category. Every
+      therapeutic antibody and biosimilar programme runs pharmacokinetic and anti-drug-antibody
+      assays, and each of those assays needs a reagent that recognises that specific drug.</p>
+
+      <div class="claims">
+        <div class="claim">
+          <h3>Mandated, not discretionary</h3>
+          <p>No biologic reaches approval without PK and immunogenicity data. For biosimilars the
+          comparative work is a regulatory requirement, so the reagent is a line item that cannot
+          be cut from a budget.</p>
+        </div>
+        <div class="claim">
+          <h3>Priced by incumbents already</h3>
+          <p>Suppliers sell per-drug anti-idiotypic reagents today, produced through hybridoma
+          routes that take months and depend on animals. The market exists; the production method
+          is the bottleneck.</p>
+        </div>
+        <div class="claim">
+          <h3>Recurring by construction</h3>
+          <p>A reagent is specific to one drug's idiotype, so every new programme needs a new one.
+          Revenue scales with the pipeline rather than with a single product.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:clamp(2.4rem,5vw,3.6rem); max-width:44em">
+        <h3 style="font-family:Archivo;font-size:1.25rem;font-weight:800;letter-spacing:-.02em;margin:0 0 .8rem">
+          The second application is why we started.</h3>
+        <p style="color:#BCAFA2">Falsified biologics now appear across every WHO region. The defence
+        the industry relies on is provenance — serialisation, lot numbers, supply-chain custody —
+        and provenance has already failed: all three falsified batches in the WHO alert on
+        semaglutide had passed through the regulated supply chain, and one carried a genuine lot
+        number. Many of those products contained relabelled insulin, which is why the harm was
+        hypoglycaemic shock rather than an absent benefit.</p>
+        <p style="color:#BCAFA2; margin-bottom:0">A reagent that reads the molecule does not care
+        what the box says. The same binder we sell into the laboratory becomes a lateral-flow check
+        where the medicine is handed to a patient.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATUS -->
+  <section id="status">
+    <div class="wrap">
+      <h2>Where we actually are.</h2>
+      <p class="sub">We have designs and a selection method. We do not yet have a validated assay,
+      and we would rather say so than discover it in diligence.</p>
+
+      <ol class="road">
+        <li>
+          <div class="trl">TRL 1</div>
+          <div>
+            <h3>Basic principles</h3>
+            <p>De novo binder design and idiotype-specific recognition are each established in the
+            published literature. Neither is our contribution.</p>
+          </div>
+        </li>
+        <li>
+          <div class="trl">TRL 2</div>
+          <div>
+            <h3>Concept formulated</h3>
+            <p>Verify a biologic's identity using a binder selected for how well it discriminates
+            rather than how tightly it binds.</p>
+          </div>
+        </li>
+        <li data-now="1">
+          <div class="trl">TRL 3</div>
+          <div>
+            <h3>Critical function, in silico <span class="now">WE ARE HERE</span></h3>
+            <p>Candidates designed against a target biologic and scored against a decoy panel of
+            look-alike molecules, entirely on public structures. The claim under test is that
+            ranking by discrimination margin selects a materially different candidate set than
+            ranking by affinity — and we report it against published experimental base rates rather
+            than treating a confidence score as a result.</p>
+          </div>
+        </li>
+        <li>
+          <div class="trl">TRL 4</div>
+          <div>
+            <h3>Laboratory validation</h3>
+            <p>Recombinant expression and an ELISA cross-reactivity panel against the same decoys,
+            with a partner laboratory. This is what the raise funds.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <footer id="contact">
+    <div class="wrap footgrid">
+      <div class="contact">
+        <h2 style="font-size:clamp(1.5rem,3vw,2.1rem); margin-bottom:1rem">
+          We are raising to put these designs on a bench.</h2>
+        <p style="color:var(--ink-2); max-width:30em">If you invest in pre-clinical tools or
+        bioanalytical infrastructure, we would like to show you the selection data.</p>
+        <p style="margin-top:1.4rem"><a href="mailto:hello@doubledelta.bio">hello@doubledelta.bio</a></p>
+      </div>
+      <div>
+        <p class="glyph" style="font-size:2rem; margin:0"><span class="a">Δ</span><span class="b">Δ</span></p>
+        <p class="fineprint">Double Delta Biosciences. The scatter plot on this page is an
+        illustration of the selection method using representative values, not measured experimental
+        data. Figures describing falsified medicines are drawn from WHO medical product alerts.</p>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ────────────── seeded RNG so the figure is stable ────────────── */
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+    t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function gauss(rnd){let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+
+  /* ────────────── scatter ────────────── */
+  const rnd = mulberry32(20260915);
+  const N = 150, pts = [];
+  for(let i=0;i<N;i++){
+    // target affinity, arbitrary units; decoy affinity correlates strongly (the real problem)
+    const t = 2.2 + gauss(rnd)*1.5;
+    let d = 0.72*t + gauss(rnd)*0.95 + 0.55;
+    // a minority of designs genuinely discriminate
+    if(rnd() < 0.13) d -= 1.6 + rnd()*2.0;
+    pts.push({t:t, d:d, i:i});
+  }
+  const TOP = 12;
+  const byAff = [...pts].sort((a,b)=>b.t-a.t).slice(0,TOP).map(p=>p.i);
+  const byMar = [...pts].sort((a,b)=>(b.t-b.d)-(a.t-a.d)).slice(0,TOP).map(p=>p.i);
+  const setA = new Set(byAff), setM = new Set(byMar);
+  const both = byAff.filter(i=>setM.has(i));
+
+  const svg = document.getElementById("scatter");
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const W=640,H=470, L=62,R=18,T=18,B=52;
+  const xs = pts.map(p=>p.t), ys = pts.map(p=>p.d);
+  const xmin=Math.min(...xs)-.4, xmax=Math.max(...xs)+.4;
+  const ymin=Math.min(...ys)-.4, ymax=Math.max(...ys)+.4;
+  const lo = Math.min(xmin,ymin), hi = Math.max(xmax,ymax);
+  const X = v => L + (v-lo)/(hi-lo)*(W-L-R);
+  const Y = v => (H-B) - (v-lo)/(hi-lo)*(H-B-T);
+
+  function el(n,at){const e=document.createElementNS(SVGNS,n);
+    for(const k in at)e.setAttribute(k,at[k]);return e}
+
+  function drawFrame(){
+    svg.appendChild(el("line",{x1:L,y1:H-B,x2:W-R,y2:H-B,stroke:"var(--rule-strong)","stroke-width":1.4}));
+    svg.appendChild(el("line",{x1:L,y1:T,x2:L,y2:H-B,stroke:"var(--rule-strong)","stroke-width":1.4}));
+    // parity diagonal — above it, the binder prefers the decoy
+    svg.appendChild(el("line",{x1:X(lo),y1:Y(lo),x2:X(hi),y2:Y(hi),
+      stroke:"var(--rule-strong)","stroke-width":1.2,"stroke-dasharray":"5 5"}));
+    const dlab = el("text",{x:X(hi)-8,y:Y(hi)+30,"text-anchor":"end",
+      "font-family":"Archivo","font-size":11,fill:"var(--ink-2)"});
+    dlab.textContent="binds both equally"; svg.appendChild(dlab);
+
+    const xl = el("text",{x:(L+W-R)/2,y:H-16,"text-anchor":"middle",
+      "font-family":"Archivo","font-size":13,"font-weight":600,fill:"var(--ink)"});
+    xl.textContent="predicted binding to the target"; svg.appendChild(xl);
+    const yl = el("text",{x:-(T+H-B)/2,y:20,transform:"rotate(-90)","text-anchor":"middle",
+      "font-family":"Archivo","font-size":13,"font-weight":600,fill:"var(--ink)"});
+    yl.textContent="predicted binding to the decoy"; svg.appendChild(yl);
+    const w1 = el("text",{x:L+10,y:T+20,"font-family":"Archivo","font-size":11,fill:"var(--ink-2)"});
+    w1.textContent="unusable region"; svg.appendChild(w1);
+  }
+  drawFrame();
+
+  const nodes = pts.map(p=>{
+    const c = el("circle",{cx:X(p.t),cy:Y(p.d),r:4.4,
+      fill:"var(--decoy)","fill-opacity":.38,stroke:"none"});
+    svg.appendChild(c); return c;
+  });
+
+  function render(mode){
+    const sel = mode==="affinity" ? setA : setM;
+    pts.forEach((p,i)=>{
+      const n = nodes[i];
+      const inBoth = sel.has(p.i) && setA.has(p.i) && setM.has(p.i);
+      if(sel.has(p.i)){
+        n.setAttribute("fill","var(--teal)");
+        n.setAttribute("fill-opacity","1");
+        n.setAttribute("r","6.6");
+        n.setAttribute("stroke", inBoth ? "var(--ink)" : "none");
+        n.setAttribute("stroke-width", inBoth ? "1.8" : "0");
+      }else{
+        n.setAttribute("fill","var(--decoy)");
+        n.setAttribute("fill-opacity",".30");
+        n.setAttribute("r","4.4");
+        n.setAttribute("stroke","none");
+      }
+    });
+    document.getElementById("overlap").textContent = both.length + " of 12";
+    document.getElementById("overlap-text").textContent =
+      "designs are chosen by both rankings. The other " + (TOP-both.length) +
+      " change entirely depending on which criterion you use.";
+  }
+
+  const bA=document.getElementById("btn-aff"), bM=document.getElementById("btn-mar");
+  function setMode(m){
+    bA.setAttribute("aria-pressed", String(m==="affinity"));
+    bM.setAttribute("aria-pressed", String(m==="margin"));
+    render(m);
+  }
+  bA.addEventListener("click",()=>setMode("affinity"));
+  bM.addEventListener("click",()=>setMode("margin"));
+  setMode("affinity");
+
+  /* ────────────── procedural protein ribbon ────────────── */
+  const cv = document.getElementById("ribbon");
+  const ctx = cv.getContext("2d");
+  let wCss=0,hCss=0;
+
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    wCss = r.width; hCss = r.height;
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+    cv.width = Math.max(1,Math.round(wCss*dpr));
+    cv.height = Math.max(1,Math.round(hCss*dpr));
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  // three-helix bundle: the topology most de novo designed binders fold into
+  function buildChain(){
+    const pts=[], kinds=[];
+    const NH=3, R=15.5, LEN=52, COIL=7.2, SUB=5;
+    const RISE=1.5/SUB, TWIST=1.745/SUB, SUPER=0.42;
+    const per=Math.round(LEN/RISE);
+    const segs=[];
+    for(let h=0; h<NH; h++){
+      const th0 = h*(2*Math.PI/NH) + 0.3;
+      const up  = (h%2===0) ? 1 : -1;
+      const L   = LEN * (h===1 ? 0.90 : 1.0);
+      const seg = [];
+      for(let i=0; i<per; i++){
+        const t  = i/(per-1);
+        const y  = (t-0.5)*L*up;
+        const th = th0 - SUPER*(y/LEN);                 // left-handed supercoil
+        const rr = R*(1 - 0.10*Math.abs(y)/(LEN/2));    // slight taper at the ends
+        const axp=rr*Math.cos(th), azp=rr*Math.sin(th);
+        const ux=Math.cos(th),  uz=Math.sin(th);
+        const vx=-Math.sin(th), vz=Math.cos(th);
+        const ph = i*TWIST*up + h*1.9;
+        seg.push([ axp + (ux*Math.cos(ph) + vx*Math.sin(ph))*COIL,
+                   y,
+                   azp + (uz*Math.cos(ph) + vz*Math.sin(ph))*COIL ]);
+      }
+      segs.push(seg);
+    }
+    for(let h=0; h<NH; h++){
+      for(const p of segs[h]){ pts.push(p); kinds.push("h"); }
+      if(h < NH-1){
+        const a=segs[h][segs[h].length-1], b=segs[h+1][0];
+        const mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, mz=(a[2]+b[2])/2;
+        const rad=Math.hypot(mx,mz)||1, sign=(a[1]>0)?1:-1;
+        const c=[mx/rad*R*1.55, my + sign*13, mz/rad*R*1.55];
+        const n=44;
+        for(let i=1;i<n;i++){
+          const t=i/n, o=(1-t)*(1-t), m=2*(1-t)*t, e=t*t;
+          pts.push([ o*a[0]+m*c[0]+e*b[0], o*a[1]+m*c[1]+e*b[1], o*a[2]+m*c[2]+e*b[2] ]);
+          kinds.push("l");
+        }
+      }
+    }
+    return {pts, kinds};
+  }
+  const chain = buildChain();
+
+  function rot(p, ay, ax){
+    const x=p[0], y=p[1], z=p[2];
+    const x1 = x*Math.cos(ay) - z*Math.sin(ay);
+    const z1 = x*Math.sin(ay) + z*Math.cos(ay);
+    const y1 = y*Math.cos(ax) - z1*Math.sin(ax);
+    const z2 = y*Math.sin(ax) + z1*Math.cos(ax);
+    return [x1,y1,z2];
+  }
+  function mix(c1,c2,t){
+    return [Math.round(c1[0]+(c2[0]-c1[0])*t),
+            Math.round(c1[1]+(c2[1]-c1[1])*t),
+            Math.round(c1[2]+(c2[2]-c1[2])*t)];
+  }
+
+  function draw(ay){
+    if(!wCss) return;
+    ctx.clearRect(0,0,wCss,hCss);
+    const cx=wCss/2, cy=hCss/2;
+    const scale=Math.min(wCss,hCss)/112;
+    const P=chain.pts.map(p=>rot(p, ay, -0.42));
+
+    let zlo=Infinity, zhi=-Infinity;
+    for(const p of P){ if(p[2]<zlo) zlo=p[2]; if(p[2]>zhi) zhi=p[2]; }
+
+    const order=[];
+    for(let i=0;i<P.length-1;i++){
+      if(chain.kinds[i]==="l" && chain.kinds[i+1]==="h" &&
+         Math.abs(P[i][1]-P[i+1][1])>30) continue;     // skip the chain-break jump
+      order.push([i,(P[i][2]+P[i+1][2])/2]);
+    }
+    order.sort((u,v)=>u[1]-v[1]);                       // painter's algorithm
+
+    const dark = document.documentElement.getAttribute("data-theme")==="dark" ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches &&
+       document.documentElement.getAttribute("data-theme")!=="light");
+    const DEEP = dark ? [6,40,46]  : [7,44,50];
+    const LITE = dark ? [104,236,216] : [72,214,196];
+
+    ctx.lineCap="round"; ctx.lineJoin="round";
+    for(const o of order){
+      const i=o[0], a=P[i], b=P[i+1];
+      const depth=(o[1]-zlo)/((zhi-zlo)||1);
+      const col=mix(DEEP, LITE, Math.pow(depth,1.25));
+      ctx.beginPath();
+      ctx.moveTo(cx+a[0]*scale, cy+a[1]*scale);
+      ctx.lineTo(cx+b[0]*scale, cy+b[1]*scale);
+      ctx.strokeStyle="rgb("+col.join(",")+")";
+      ctx.lineWidth=(chain.kinds[i]==="h" ? 2.9 : 2.3)*scale*(0.74+depth*0.52);
+      ctx.stroke();
+    }
+  }
+
+  let angle = 1.15, raf = null, visible = true;
+  function tick(){
+    angle += 0.0032;
+    draw(angle);
+    raf = requestAnimationFrame(tick);
+  }
+  function start(){ if(raf===null && !reduce && visible) raf=requestAnimationFrame(tick) }
+  function stop(){ if(raf!==null){ cancelAnimationFrame(raf); raf=null } }
+
+  const ro = new ResizeObserver(()=>{ resize(); draw(angle) });
+  ro.observe(cv);
+  resize(); draw(angle);
+
+  if(reduce){ draw(1.15) } else {
+    const io = new IntersectionObserver(es=>{
+      visible = es[0].isIntersecting;
+      visible ? start() : stop();
+    },{threshold:0.05});
+    io.observe(cv);
+  }
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>draw(angle));
+})();
+</script>
+</body>
+</html>
